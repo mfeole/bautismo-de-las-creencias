@@ -186,7 +186,40 @@
     position: relative; aspect-ratio: 9 / 16; width: 100%; max-width: 100%; border-radius: var(--radius); overflow: hidden;
     background: #0d0305; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px var(--glow);
   }
-  .frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .frame video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #12040a; }
+  .frame .play {
+    position: absolute; left: 0; right: 0; bottom: 14%; margin: 0 auto; width: max-content;
+    font: inherit; border: 0; background: none; padding: 0; cursor: pointer;
+  }
+  .frame .play span {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    color: #f4ecd8; background: var(--accent-deep); padding: 0.65rem 1.3rem; border-radius: 999px;
+    font-weight: 500; font-size: 0.97rem; box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7); transition: background .2s, transform .2s;
+  }
+  .frame .play svg { width: 1.05rem; height: 1.05rem; }
+  .frame .play:hover span { background: #a52a3a; transform: translateY(-1px); }
+
+  /* The four moments of a repeated story, in order */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; counter-reset: step; }
+  .steps li { counter-increment: step; position: relative; padding-top: 3.2rem; }
+  .steps li::before {
+    content: counter(step); position: absolute; top: 0; left: 0;
+    width: 2.3rem; height: 2.3rem; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--serif); font-size: 1.15rem; color: var(--accent); border: 1px solid var(--accent); background: var(--bg);
+  }
+  .steps li::after { content: ""; position: absolute; top: 1.15rem; left: 3rem; right: -1.1rem; height: 1px; background: linear-gradient(90deg, var(--accent), var(--line)); opacity: .6; }
+  .steps li:last-child::after { display: none; }
+  .steps h3 { font-family: var(--serif); font-size: 1.3rem; font-weight: 500; margin: 0 0 0.45rem; }
+  .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* Closing invitation */
+  .invite {
+    margin-top: 3.5rem; padding: 2.5rem 2rem; text-align: center; border-radius: calc(var(--radius) + 6px);
+    border: 1px solid var(--accent-deep);
+    background: radial-gradient(40rem 20rem at 50% 0%, var(--glow), transparent 70%), var(--card);
+  }
+  .invite .q { font-family: var(--serif); font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.35; max-width: 36rem; margin: 0 auto 0.75rem; text-wrap: balance; }
+  .invite p { color: var(--muted); margin: 0 0 1.5rem; }
   .video-text p { margin: 0 0 1rem; color: var(--muted); }
   .video-text { max-width: 30rem; }
   .video-text p.lead { font-family: var(--serif); font-size: 1.25rem; line-height: 1.45; color: var(--ink); }
@@ -207,11 +240,19 @@
   /* ============================================================
      SMALL SCREENS
      ============================================================ */
+  @media (max-width: 60rem) and (min-width: 48.01rem) {
+    .steps { grid-template-columns: repeat(2, 1fr); row-gap: 2.25rem; }
+    .steps li:nth-child(2)::after { display: none; }
+  }
   @media (max-width: 48rem) {
     .hero { grid-template-columns: 1fr; padding: 2.5rem 0 3rem; gap: 1.75rem; }
     .portrait { grid-template-columns: auto 1fr; justify-items: start; text-align: left; gap: 1.1rem; align-items: center; }
     .portrait img { width: 7rem; height: 7rem; }
     .pillars { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr; gap: 1.4rem; }
+    .steps li { padding: 0 0 0 3.4rem; min-height: 2.3rem; }
+    .steps li::after { top: 2.6rem; bottom: -1.2rem; left: 1.15rem; right: auto; width: 1px; height: auto; background: linear-gradient(var(--accent), var(--line)); }
+    .invite { padding: 2rem 1.25rem; }
     .band { padding: 1.75rem 1rem; margin-bottom: 3rem; }
     .band .logo { width: 5.5rem; height: 5.5rem; }
     .video { grid-template-columns: 1fr; gap: 1.25rem; }
@@ -263,13 +304,13 @@
   <section id="home">
     <div class="hero">
       <figure class="portrait">
-        <img src="juan-carlos-feole.jpg" alt="Juan Carlos Feole" width="1254" height="1254">
-        <figcaption><b>Juan Carlos Feole</b><span>Autor</span></figcaption>
+        <img src="media/juan-carlos-feole.jpg" alt="Juan Carlos Feole" width="1254" height="1254">
+        <figcaption><b>Juan Carlos Feole</b><span>Psicólogo · Autor</span></figcaption>
       </figure>
       <div>
         <p class="eyebrow">Psicología · Filosofía · Un proyecto de Juan Carlos Feole</p>
         <h1>Bautismo <em>de las creencias</em></h1>
-        <p class="lede">Un proyecto que nace de un libro y va más allá de él: una teoría psicológica y filosófica sobre cómo nacen, se nombran y se transforman nuestras creencias.</p>
+        <p class="lede">¿Por qué siempre me pasa lo mismo? Cambiamos de personas, de lugares o de circunstancias, y aun así volvemos a encontrarnos con conflictos muy parecidos. Este proyecto busca las creencias que están detrás de esas repeticiones.</p>
         <div class="links">
           <a class="btn primary" href="#video"><svg><use href="#i-play"/></svg>Ver la presentación</a>
           <a class="btn" href="https://www.instagram.com/juancarlosfeole/" rel="noopener"><svg><use href="#i-ig"/></svg>@juancarlosfeole</a>
@@ -280,40 +321,68 @@
     <div class="band">
       <svg class="logo" role="img" aria-label="Logo de Bautismo de las creencias"><use href="#logo"/></svg>
       <blockquote>
-        [Aquí va una frase del libro que resuma el espíritu del proyecto.]
-        <cite>Bautismo de las creencias</cite>
+        Quizás la pregunta no sea «¿Por qué me pasa esto?», sino «¿Qué estoy repitiendo?»
+        <cite>Juan Carlos Feole</cite>
       </blockquote>
     </div>
 
     <div id="video" class="sec-head"><h2>La presentación</h2></div>
     <div class="video">
       <div class="frame">
-        <iframe src="https://drive.google.com/file/d/1SLapwYzeMlP62tyNRM7RWegTS1B-StJH/preview" title="Presentación de Bautismo de las creencias" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+        <video id="presentacion" src="media/presentacion.mp4" poster="media/poster.svg" preload="none" playsinline></video>
+        <button class="play" id="play" type="button"><span><svg><use href="#i-play"/></svg>Ver la presentación</span></button>
       </div>
       <div class="video-text">
-        <p class="lead">Juan Carlos Feole presenta el proyecto en pocos minutos.</p>
-        <p>[Breve texto que acompañe al video: de qué habla y qué va a encontrar quien lo mire.]</p>
+        <p class="lead">Hay situaciones traumáticas que no se quedan en el pasado.</p>
+        <p>En este video, Juan Carlos Feole explica cómo una experiencia que supera nuestra capacidad de elaboración deja una carga emocional que queda aferrada a nuestra vida. Esa carga se vuelve una creencia, y la creencia nos lleva a repetir el mismo sufrimiento, tengamos veinte o cuarenta años.</p>
+        <p>La propuesta es resolver esa creencia, para que las situaciones del presente dejen de cargar con el peso del pasado.</p>
       </div>
     </div>
+
+    <div id="idea" class="sec-head spaced"><h2>Cómo se repite una historia</h2></div>
+    <ol class="steps">
+      <li>
+        <h3>La experiencia</h3>
+        <p>Una situación supera nuestra capacidad de elaboración y se vuelve traumática. Tiene dos aspectos: la foto de lo que pasó y su carga emocional.</p>
+      </li>
+      <li>
+        <h3>La creencia</h3>
+        <p>Esa carga emocional queda aferrada y se transforma en una creencia que repetimos sin darnos cuenta.</p>
+      </li>
+      <li>
+        <h3>La repetición</h3>
+        <p>La creencia nos lleva otra vez hacia situaciones que nos hacen sufrir, aunque cambiemos de personas, de lugares o de circunstancias.</p>
+      </li>
+      <li>
+        <h3>La resolución</h3>
+        <p>Al reconocer y resolver esa creencia, el presente deja de cargar con el peso traumático del pasado.</p>
+      </li>
+    </ol>
 
     <div id="proyecto" class="sec-head spaced"><h2>El proyecto</h2></div>
     <div class="pillars">
       <div class="pillar">
         <div class="kicker">El fundamento</div>
         <h3>El libro</h3>
-        <p>La base teórica del proyecto: una propuesta psicológica y filosófica sobre las creencias. [Breve descripción del libro.]</p>
+        <p>La base teórica del proyecto: una propuesta psicológica y filosófica sobre cómo las experiencias que nos marcaron se vuelven creencias, y cómo esas creencias nos llevan a repetir las mismas historias. [Datos del libro: año, editorial y dónde conseguirlo.]</p>
       </div>
       <div class="pillar">
         <div class="kicker">La expansión</div>
         <h3>Más allá del libro</h3>
-        <p>El proyecto lleva la teoría a otros formatos y espacios. [Qué más incluye: charlas, talleres, escritos, etc.]</p>
+        <p>El proyecto lleva estas ideas a videos y publicaciones para acompañar a quienes sienten que viven una y otra vez la misma historia. [Otros formatos: charlas, talleres, consultas, etc.]</p>
       </div>
       <div class="pillar">
         <div class="kicker">El autor</div>
         <h3>Juan Carlos Feole</h3>
-        <p>Autor del libro y creador del proyecto. [Breve presentación del autor.]</p>
+        <p>Psicólogo, autor del libro y creador del proyecto. [Breve trayectoria profesional.]</p>
         <a class="more" href="https://www.instagram.com/juancarlosfeole/" rel="noopener">Seguilo en Instagram →</a>
       </div>
+    </div>
+
+    <div class="invite">
+      <p class="q">¿Alguna vez sentiste que estabas viviendo una historia que ya habías vivido antes?</p>
+      <p>Juan Carlos Feole lee los comentarios y mensajes en Instagram.</p>
+      <a class="btn primary" href="https://www.instagram.com/juancarlosfeole/" rel="noopener"><svg><use href="#i-ig"/></svg>Contáselo en Instagram</a>
     </div>
   </section>
 
@@ -340,6 +409,16 @@
       var light = root.getAttribute("data-theme") === "light";
       if (light) root.removeAttribute("data-theme"); else root.setAttribute("data-theme", "light");
       store("theme", light ? "dark" : "light");
+    });
+
+    // Video: the logo poster shows until the viewer presses play; then the native controls take over
+    var video = document.getElementById("presentacion");
+    var play = document.getElementById("play");
+    play.addEventListener("click", function () {
+      play.hidden = true;
+      video.controls = true;
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
     });
   })();
 </script>
