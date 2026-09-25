@@ -7,7 +7,7 @@
 <meta name="description" content="Bautismo de las creencias: un proyecto de Juan Carlos Feole, de psicología y filosofía, que nace de un libro y se extiende más allá de él.">
 <meta name="author" content="Juan Carlos Feole">
 <meta name="theme-color" content="#1a070b">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%238f1d2c'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='Georgia,serif' font-style='italic' font-size='30' fill='%23f4ecd8'%3EBC%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%238f1d2c'/%3E%3Cg fill='none' stroke='%23f4ecd8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 74 Q60 36 108 74 Q60 112 12 74 Z' stroke-width='7'/%3E%3C/g%3E%3Cpath d='M60 10 C60 10 49 26 49 35 a11 11 0 0 0 22 0 C71 26 60 10 60 10 Z' fill='%23f4ecd8'/%3E%3Ccircle cx='60' cy='75' r='8' fill='%23f4ecd8'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&display=swap">
@@ -91,7 +91,10 @@
     font-family: var(--serif); font-size: 1.25rem; font-weight: 500;
     color: var(--ink); text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
-  .brand span { color: var(--accent); font-style: italic; }
+  .brand { display: inline-flex; align-items: center; gap: 0.55rem; }
+  .brand span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+  .brand em { color: var(--accent); }
+  .brand svg { width: 2rem; height: 2rem; flex: none; color: var(--accent); }
   .nav { display: flex; gap: 0.2rem; margin-left: auto; font-size: 0.92rem; }
   .nav a {
     color: var(--muted); text-decoration: none; white-space: nowrap;
@@ -154,6 +157,7 @@
     text-align: center;
   }
   :root[data-theme="light"] .band { background: linear-gradient(90deg, transparent, rgba(143, 29, 44, 0.07) 20%, rgba(143, 29, 44, 0.10) 50%, rgba(143, 29, 44, 0.07) 80%, transparent); }
+  .band .logo { display: block; width: 7.5rem; height: 7.5rem; margin: 0 auto 1.25rem; color: var(--accent); }
   .band blockquote {
     margin: 0 auto; max-width: 42rem;
     font-family: var(--serif); font-style: italic; font-size: clamp(1.3rem, 3vw, 1.65rem); line-height: 1.45; color: var(--accent-2);
@@ -176,6 +180,18 @@
   .pillar h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; margin: 0 0 0.5rem; }
   .pillar p { margin: 0; color: var(--muted); font-size: 0.97rem; }
 
+  .sec-head.spaced { margin-top: 4rem; }
+  .video { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 2rem; align-items: center; margin-bottom: 1rem; }
+  .frame {
+    position: relative; aspect-ratio: 16 / 9; max-width: 100%; border-radius: var(--radius); overflow: hidden;
+    background: #0d0305; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px var(--glow);
+  }
+  .frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-text p { margin: 0 0 1rem; color: var(--muted); }
+  .video-text p.lead { font-family: var(--serif); font-size: 1.25rem; line-height: 1.45; color: var(--ink); }
+  .btn svg { width: 1rem; height: 1rem; }
+  .pillar .more { display: inline-block; margin-top: 0.8rem; font-size: 0.92rem; font-weight: 500; }
+
   footer { padding: 3rem 0; margin-top: 4rem; border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--faint); }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; }
   footer a { color: var(--muted); }
@@ -196,7 +212,13 @@
     .portrait img { width: 7rem; height: 7rem; }
     .pillars { grid-template-columns: 1fr; }
     .band { padding: 1.75rem 1rem; margin-bottom: 3rem; }
-    .brand { font-size: 1.1rem; }
+    .band .logo { width: 5.5rem; height: 5.5rem; }
+    .video { grid-template-columns: 1fr; gap: 1.25rem; }
+    .sec-head.spaced { margin-top: 3rem; }
+    .brand { font-size: 1rem; gap: 0.45rem; min-width: 0; }
+    .brand svg { width: 1.6rem; height: 1.6rem; }
+    .bar .wrap { gap: 0.6rem; }
+    .nav a { padding: 0.35rem 0.6rem; }
   }
 </style>
 </head>
@@ -205,11 +227,27 @@
 <!-- Inline SVG icons, referenced with <use> -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.6" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></symbol>
+  <!-- Logo: a drop falling into an eye. Beliefs are the lens we see through; the drop is the baptism, the ripples what it sets in motion. -->
+  <symbol id="logo" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 74 Q60 34 112 74 Q60 114 8 74 Z" stroke-width="2.6"/>
+    <ellipse cx="60" cy="76" rx="31" ry="8.5" stroke-width="1.3" opacity=".45"/>
+    <ellipse cx="60" cy="76" rx="18" ry="5" stroke-width="1.6" opacity=".75"/>
+    <path d="M60 12 C60 12 50 28 50 36 a10 10 0 0 0 20 0 C70 28 60 12 60 12 Z" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="76" r="4.2" fill="currentColor" stroke="none"/>
+  </symbol>
+  <!-- Small version of the logo for the top bar (no ripples) -->
+  <symbol id="mark" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 76 Q60 38 110 76 Q60 114 10 76 Z" stroke-width="7"/>
+    <path d="M60 6 C60 6 48 24 48 33 a12 12 0 0 0 24 0 C72 24 60 6 60 6 Z" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="77" r="9" fill="currentColor" stroke="none"/>
+  </symbol>
 </svg>
 
 <header class="bar">
   <div class="wrap">
-    <a class="brand" href="#home">Bautismo <span>de las creencias</span></a>
+    <a class="brand" href="#home"><svg aria-hidden="true"><use href="#mark"/></svg><span>Bautismo <em>de las creencias</em></span></a>
     <nav class="nav" aria-label="Secciones">
       <a href="#home" class="active" aria-current="page">Inicio</a>
     </nav>
@@ -231,19 +269,32 @@
         <h1>Bautismo <em>de las creencias</em></h1>
         <p class="lede">Un proyecto que nace de un libro y va más allá de él: una teoría psicológica y filosófica sobre cómo nacen, se nombran y se transforman nuestras creencias.</p>
         <div class="links">
-          <a class="btn primary" href="#proyecto">Conocé el proyecto</a>
+          <a class="btn primary" href="#video"><svg><use href="#i-play"/></svg>Ver la presentación</a>
+          <a class="btn" href="https://www.instagram.com/juancarlosfeole/" rel="noopener"><svg><use href="#i-ig"/></svg>@juancarlosfeole</a>
         </div>
       </div>
     </div>
 
     <div class="band">
+      <svg class="logo" role="img" aria-label="Logo de Bautismo de las creencias"><use href="#logo"/></svg>
       <blockquote>
         [Aquí va una frase del libro que resuma el espíritu del proyecto.]
         <cite>Bautismo de las creencias</cite>
       </blockquote>
     </div>
 
-    <div id="proyecto" class="sec-head"><h2>El proyecto</h2></div>
+    <div id="video" class="sec-head"><h2>La presentación</h2></div>
+    <div class="video">
+      <div class="frame">
+        <iframe src="https://drive.google.com/file/d/1SLapwYzeMlP62tyNRM7RWegTS1B-StJH/preview" title="Presentación de Bautismo de las creencias" allow="autoplay; fullscreen" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-text">
+        <p class="lead">Juan Carlos Feole presenta el proyecto en pocos minutos.</p>
+        <p>[Breve texto que acompañe al video: de qué habla y qué va a encontrar quien lo mire.]</p>
+      </div>
+    </div>
+
+    <div id="proyecto" class="sec-head spaced"><h2>El proyecto</h2></div>
     <div class="pillars">
       <div class="pillar">
         <div class="kicker">El fundamento</div>
@@ -259,6 +310,7 @@
         <div class="kicker">El autor</div>
         <h3>Juan Carlos Feole</h3>
         <p>Autor del libro y creador del proyecto. [Breve presentación del autor.]</p>
+        <a class="more" href="https://www.instagram.com/juancarlosfeole/" rel="noopener">Seguilo en Instagram →</a>
       </div>
     </div>
   </section>
@@ -268,7 +320,7 @@
 <footer>
   <div class="wrap">
     <span>&copy; <span id="year">2026</span> Bautismo de las creencias</span>
-    <span><a href="#home">Inicio</a></span>
+    <span><a href="https://www.instagram.com/juancarlosfeole/" rel="noopener">Instagram</a> · <a href="#home">Inicio</a></span>
   </div>
 </footer>
 
