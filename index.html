@@ -196,7 +196,7 @@
   .pillar p.soon { margin-top: 0.8rem; font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
 
   .sec-head.spaced { margin-top: 4rem; }
-  .video { display: grid; grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); gap: 3rem; align-items: center; margin-bottom: 1rem; }
+  .video { display: grid; grid-template-columns: minmax(0, 16rem) minmax(0, 1fr) minmax(0, 16rem); gap: 2.5rem; align-items: center; margin-bottom: 1rem; }
   .frame {
     position: relative; aspect-ratio: 9 / 16; width: 100%; max-width: 100%; border-radius: var(--radius); overflow: hidden;
     background: #0d0305; border: 1px solid var(--line); box-shadow: 0 30px 80px -30px var(--glow);
@@ -236,8 +236,9 @@
   .invite .q { font-family: var(--serif); font-size: clamp(1.35rem, 3vw, 1.75rem); line-height: 1.35; max-width: 36rem; margin: 0 auto 0.75rem; text-wrap: balance; }
   .invite p { color: var(--muted); margin: 0 0 1.5rem; }
   .video-text p { margin: 0 0 1rem; color: var(--muted); }
-  .video-text { max-width: 30rem; }
-  .video-text p.lead { font-family: var(--serif); font-size: 1.25rem; line-height: 1.45; color: var(--ink); }
+  .video-text { max-width: 30rem; justify-self: center; }
+  .video-text p.lead { font-family: var(--serif); font-size: 1.3rem; line-height: 1.35; color: var(--ink); text-wrap: balance; }
+  .video-text p.lead em { color: var(--accent); }
   .btn svg { width: 1rem; height: 1rem; }
   .pillar .more { display: inline-block; margin-top: 0.8rem; font-size: 0.92rem; font-weight: 500; }
 
@@ -255,6 +256,12 @@
   /* ============================================================
      SMALL SCREENS
      ============================================================ */
+  /* Medium widths: summary on top, the two videos side by side below */
+  @media (max-width: 64rem) and (min-width: 48.01rem) {
+    .video { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .video-text { grid-column: 1 / -1; order: -1; max-width: 40rem; }
+    .frame { max-width: 18rem; width: 100%; justify-self: center; }
+  }
   @media (max-width: 60rem) and (min-width: 48.01rem) {
     .steps { grid-template-columns: repeat(2, 1fr); row-gap: 2.25rem; }
     .steps li:nth-child(2)::after { display: none; }
@@ -347,16 +354,20 @@
       </blockquote>
     </div>
 
-    <div id="video" class="sec-head"><h2>La presentación</h2></div>
+    <div id="video" class="sec-head"><h2>Videos de presentación y desarrollo</h2></div>
     <div class="video">
       <div class="frame">
-        <video id="presentacion" src="media/presentacion.mp4" poster="media/poster.svg" preload="none" playsinline></video>
-        <button class="play" id="play" type="button"><span><svg><use href="#i-play"/></svg>Ver la presentación</span></button>
+        <video src="media/presentacion.mp4" poster="media/poster.svg" preload="none" playsinline></video>
+        <button class="play" type="button"><span><svg><use href="#i-play"/></svg>Ver la presentación</span></button>
       </div>
       <div class="video-text">
-        <p class="lead">Hay situaciones traumáticas que no se quedan en el pasado.</p>
-        <p>En este video, Juan Carlos Feole explica cómo una experiencia que supera nuestra capacidad de elaboración deja una carga emocional que queda aferrada a nuestra vida. Esa carga se vuelve una creencia, y la creencia nos lleva a repetir el mismo sufrimiento, tengamos veinte o cuarenta años.</p>
-        <p>La propuesta es resolver esa creencia, extirpándola, para que las situaciones del presente dejen de cargar con el peso traumático del pasado.</p>
+        <p class="lead">Presentación y desarrollo de <em>El bautismo de las creencias</em></p>
+        <p>En la presentación, Juan Carlos Feole explica cómo una experiencia que supera nuestra capacidad de elaboración deja una carga emocional aferrada a nuestra vida. Esa carga se vuelve una creencia errónea que nos lleva a repetir el mismo sufrimiento, tengamos veinte o cuarenta años.</p>
+        <p>En el desarrollo, explica el verdadero bautismo: extirpar esa creencia errónea para que el espíritu haga fluir la creencia definitiva. Como los dientes de leche, que caen cuando el diente definitivo ya está a la espera, esa nueva creencia es un mapa hacia una vida de amor y de propósito, lejos del modelo del mundo, que nos enseña a ser felices teniendo posesiones.</p>
+      </div>
+      <div class="frame">
+        <video src="media/video_2.mp4" poster="media/poster.svg" preload="none" playsinline></video>
+        <button class="play" type="button"><span><svg><use href="#i-play"/></svg>Ver el desarrollo</span></button>
       </div>
     </div>
 
@@ -452,14 +463,21 @@
     window.addEventListener("resize", fitLogo);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitLogo);
 
-    // Video: the logo poster shows until the viewer presses play; then the native controls take over
-    var video = document.getElementById("presentacion");
-    var play = document.getElementById("play");
-    play.addEventListener("click", function () {
-      play.hidden = true;
-      video.controls = true;
-      var p = video.play();
-      if (p && p.catch) p.catch(function () {});
+    // Videos: the logo poster shows until the viewer presses play; then the native controls take over.
+    // Starting one video pauses the other.
+    var videos = document.querySelectorAll(".frame video");
+    document.querySelectorAll(".frame .play").forEach(function (btn) {
+      var video = btn.parentNode.querySelector("video");
+      btn.addEventListener("click", function () {
+        btn.hidden = true;
+        video.controls = true;
+        var p = video.play();
+        if (p && p.catch) p.catch(function () {});
+      });
+      video.addEventListener("play", function () {
+        videos.forEach(function (v) { if (v !== video) v.pause(); });
+      });
+    });
     });
   })();
 </script>
